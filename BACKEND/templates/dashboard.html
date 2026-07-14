@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Study4U-Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    </head>
+
+        <body>
+<!--SIDEBAR-->
+
+            <div class="dashboard">
+
+                <div class="sidebar">
+
+                    <div class="logo">
+                        
+                <!--LOGO PENTRU U-->
+
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <h1>Study4<span class="logo-u">U</span></h1>
+
+                    </div>
+                
+                    <div class="user-info">
+
+                        <div class="user-icon">
+                            <i class="fa-solid fa-book-open"></i>
+
+                        </div>
+
+                        <div class="user-details">
+
+                        <p>Welcome ,</p>
+                        <h2>{{username}}</h2>
+
+                        </div>
+
+                    </div>
+
+                    <nav class="sidebar-menu">
+
+                        <a href="#" class="active">
+                            <i class="fa-solid fa-house"></i>
+                            Dashboard
+                        </a>
+
+                        <a href="{{ url_for('notes') }}">
+                            <i class="fa-solid fa-note-sticky"></i>
+                            Notes
+                        </a>
+
+                        <a href="{{ url_for('todo') }}">
+                            <i class="fa-solid fa-square-check"></i>
+                            To-Do List
+                        </a>
+
+                        <a href="{{ url_for('calendar') }}">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            Calendar
+                        </a>
+
+                        <a href="{{ url_for('courses') }}">
+                            <i class="fa-solid fa-folder"></i>
+                            Courses
+                        </a>
+
+                        <a href="{{ url_for('settings') }}">
+                            <i class="fa-solid fa-gear"></i>
+                            Settings
+                        </a>
+                    
+                    </nav>
+
+                    <div class="sidebar-logout">
+
+                        <a href="{{ url_for('logout') }}">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    
+                    </div>
+                </div> 
+
+<!--MAIN CONTENT-->
+               <div class="main-content">  
+
+                    <div class="twinkle-stars" aria-hidden="true">
+                        <span class="star star-1">✦</span>
+                        <span class="star star-2">✦</span>
+                        <span class="star star-3">✦</span>
+                        <span class="star star-4">✦</span>
+                        <span class="star star-5">✦</span>
+                    </div>
+
+                    <div class="dashboard-header">
+
+                        <div class="header-text">
+
+                            <h1>
+                                We are glad to have you here, {{username}}!
+                                <i class="fa-solid fa-hand"></i>
+                            </h1>
+
+                            <p>Here is what is happening today.</p>
+
+                        </div>
+
+                        <div class="header-actions">
+
+                            <div class="date-box">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <span>{{ today_date }}</span>
+
+                            </div>
+                            
+                            <div class="rate-wrapper">
+
+                                <a href="{{ url_for('rate_us') }}" class="rate-button">
+
+                                    Rate us!
+                                    <i class="fa-solid fa-star"></i>
+
+                                </a>
+
+                                <div class="rate-preview">
+
+                                    <h4>Latest reviews</h4>
+
+                                    {% for review in latest_reviews %}
+
+                                    <div>
+
+                                        {% for user in users %}
+                                            {% if user.id == review.user_id %}
+                                                <strong>{{ user.username }}</strong>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <span>
+
+                                            {% for i in range(review.rating) %}
+                                                ★
+                                            {% endfor %}
+
+                                            {% for i in range(5-review.rating) %}
+                                                ☆
+                                            {% endfor %}
+
+                                        </span>
+
+                                    </div>
+
+                                    {% endfor %}
+
+                                    {% if not latest_reviews %}
+                                        <p>No reviews yet.</p>
+                                    {% endif %}
+
+                                </div>
+                                
+                            </div>
+                          
+
+                        </div>
+
+                    </div>
+
+                    <div class="stats-grid">
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-note-sticky"></i>
+
+                            </div>
+
+                                <div class="stat-info">
+
+                                    <p>Notes</p>
+                                    <h2>{{ notes_count }}</h2>
+                                    <span>Total notes</span>
+
+                                </div>
+
+                        </div>
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-square-check"></i>
+
+                            </div>
+
+                                 <div class="stat-info">
+
+                                    <p>To-Do-List</p>
+                                    <h2>{{ tasks_count }}</h2>
+                                    <span>Tasks to do</span>
+
+                                </div>
+
+                        </div>
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-calendar-days"></i>
+
+                            </div>
+
+                                <div class="stat-info">
+                                    <p>Upcoming events</p>
+                                    <h2>{{ events_count }}</h2>
+                                    <span>Events saved</span>
+
+                                </div>
+
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-folder"></i>
+
+                            </div>
+
+                                <div class="stat-info">
+                                    <p>Courses</p>
+                                    <h2>{{ courses_count }}</h2>
+                                    <span>Files Uploaded</span>
+
+                                </div>
+            
+                        </div>
+
+                    </div>
+
+                        <div class="dashboard-grid">
+
+                            <div class="dashboard-card">
+                                <div class="card-title-row">
+
+                                    <h2>To-Do-List</h2>
+                                    <a href="{{ url_for('todo') }}">Veiw all</a>
+                                </div>
+
+                                {% for task in latest_tasks %}
+                                    <div class="dashboard-list-item">
+                                        
+                                        <span class="glowing-dot"></span>
+                                        <span>{{ task.task }}</span>
+
+                                    </div>
+
+                                {% endfor %}
+
+                                {% if not latest_tasks %}
+
+                                    <p>No tasks yet.</p>
+
+                                {% endif %}
+                                
+                            
+                            </div>
+
+                            <div class="dashboard-card">
+                                <div class="card-title-row">
+
+                                    <h2>Notes</h2>
+                                    <a href="{{ url_for('notes') }}">Veiw all</a>
+                                </div>
+
+                                {% for note in latest_notes %}
+
+                                    <div class="dashboard-list-item">
+                                        
+                                        <span class="glowing-dot"></span>
+                                        <span>{{ note.title }}</span>
+
+                                    </div>
+
+                                {% endfor %}
+
+                                {% if not latest_notes %}
+
+                                    <p>No notes yet.</p>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="dashboard-card">
+
+                                <div class="card-title-row">
+
+                                    <h2>Upcoming Events</h2>
+
+                                    <a href="{{ url_for('calendar') }}">Veiw calendar</a>
+                                </div>
+
+                                {% for event in latest_events %}
+
+                                    <div class="dashboard-list-item event-list-item">
+
+                                        <span class="glowing-dot"></span>
+                                        <span>{{ event.title }} - {{ event.event_date }}</span>
+
+                                    </div>
+
+                                {% endfor %}
+
+                                {% if not latest_events %}
+
+                                    <p>No events yet.</p>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="dashboard-card">
+
+                                 <div class="card-title-row">
+
+                                    <h2>Courses</h2>
+                                    <a href="{{ url_for('courses') }}">Veiw all</a>
+                                </div>
+
+                                {% for file in latest_files %}
+
+                                    <div class="dashboard-list-item">
+                                        <span class="glowing-dot"></span>
+                                        <pspan>{{ file.filename }}</span>
+
+                                    </div>
+
+                                {% endfor %}
+
+                                {% if not latest_files %}
+                                    <p>No files yet.</p>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+               </div>
+                                               
+        </body>
+
+</html>

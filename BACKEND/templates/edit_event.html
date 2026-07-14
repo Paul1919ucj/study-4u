@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>Edit event</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+        
+
+    </head>
+
+        <body>
+
+            <main class="page-container">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1 class="page-title">Edit Event</h1>
+
+                        <p class="page-subtitle">
+                            Update your event details.
+                        </p>
+                    </div>
+
+                    <a href="{{ url_for('calendar') }}" class="home-button">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back
+                    </a>
+
+                </div>
+
+                <section class="page-card edit-event-card">
+
+                    <form method="POST" class="edit-event-form">
+
+                        <label for="title">Event title</label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value="{{ event.title }}"
+                            required
+                        >
+
+                        <label for="description">Description</label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="6"
+                        >{{ event.description }}</textarea>
+
+                        <label for="event_date">Date</label>
+
+                        <input
+                            type="date"
+                            id="event_date"
+                            name="event_date"
+                            value="{{ event.event_date }}"
+                            required
+                        >
+
+                        <button type="submit" class="primary-button">
+                            <i class="fa-solid fa-check"></i>
+                            Save changes
+                        </button>
+
+                    </form>
+
+                </section>
+
+            </main>
+
+        </body>
+
+</html>

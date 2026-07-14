@@ -1,0 +1,13 @@
+venv/
+
+_pycache_/
+
+*.pyc
+
+.git
+
+.gitignore
+
+README.md
+
+.env

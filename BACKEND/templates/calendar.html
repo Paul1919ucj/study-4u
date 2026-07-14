@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>Study4U-Calendar</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+        
+    </head>
+
+        <body>
+
+            <main class="page-container">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1 class="page-title">Calendar</h1>
+
+                        <p class="page-subtitle">
+                            Plan your study events and deadlines.
+                        </p>
+                    </div>
+
+                    <a href="{{ url_for('dashboard') }}" class="home-button">
+                        <i class="fa-solid fa-house"></i>
+                        Home
+                    </a>
+
+                </div>
+
+                <section class="page-card">
+
+                    <h2 class="section-title">Add an event</h2>
+
+                    <form method="POST" class="event-form">
+
+                        <label for="selected_date">Select date</label>
+
+                        <input
+                            type="date"
+                            id="selected_date"
+                            name="selected_date"
+                        >
+
+                        <label for="title">Event title</label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="Enter the event title..."
+                            required
+                        >
+
+                        <label for="description">Description</label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="5"
+                            placeholder="Write a short description..."
+                        ></textarea>
+
+                        <label for="event_date">Date</label>
+
+                        <input
+                            type="date"
+                            id="event_date"
+                            name="event_date"
+                            required
+                        >
+
+                        <button type="submit" class="primary-button">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            Save event
+                        </button>
+
+                    </form>
+
+                </section>
+
+                <section class="page-card">
+
+                    <h2 class="section-title">Saved Events</h2>
+
+                    <div class="events-list">
+
+                        {% for event in events %}
+
+                            <article class="event-card">
+
+                                <div class="event-card-header">
+
+                                    <div class="event-title-container">
+
+                                        <span class="glowing-dot"></span>
+
+                                        <div>
+                                            <h3>{{ event.title }}</h3>
+
+                                            <span class="event-date">
+                                                <i class="fa-regular fa-calendar"></i>
+                                                {{ event.event_date }}
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="event-actions">
+
+                                        <a
+                                            href="{{ url_for('edit_event', event_id=event.id) }}"
+                                            class="action-button edit-button"
+                                        >
+                                            <i class="fa-solid fa-pen"></i>
+                                            Edit
+                                        </a>
+
+                                        <a
+                                            href="{{ url_for('delete_event', event_id=event.id) }}"
+                                            class="action-button delete-button"
+                                        >
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                                {% if event.description %}
+                                    <p class="event-description">
+                                        {{ event.description }}
+                                    </p>
+                                {% endif %}
+
+                            </article>
+
+                        {% endfor %}
+
+                        {% if not events %}
+                            <p class="empty-message">
+                                No events saved yet.
+                            </p>
+                        {% endif %}
+
+                    </div>
+
+                </section>
+
+            </main>
+
+        </body>
+           
+</html>

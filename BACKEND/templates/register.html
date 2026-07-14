@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Study4U - Register</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+
+    </head>
+
+        <body>
+            <div class="login-container">
+
+                <p>Join our community</p>
+
+                <form method="POST">
+                    <label>Username</label>
+                        <input type="text" name="username">
+
+                    <label>Email</label>
+                        <input type="text" name="email">
+
+                    <label>Password</label>
+                        <input type="password" name="password">
+
+                <button type ="submit">Register </button>
+                </form>
+            <p class="login-link">
+                Already have an account?
+                <a href="/">Login here</a>
+            </p>
+
+            </div>
+        </body>
+
+</html>

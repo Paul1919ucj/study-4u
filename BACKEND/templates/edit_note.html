@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title> Edit note </title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+        
+
+    </head>
+
+        <body>
+
+            <main class="page-container">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1 class="page-title">Edit Note</h1>
+
+                        <p class="page-subtitle">
+                            Update your saved note.
+                        </p>
+                    </div>
+
+                    <a href="{{ url_for('notes') }}" class="home-button">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back
+                    </a>
+
+                </div>
+
+                <section class="page-card edit-note-card">
+
+                    <form method="POST" class="edit-note-form">
+
+                        <label for="title">Title</label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value="{{ note.title }}"
+                            required
+                        >
+
+                        <label for="content">Content</label>
+
+                        <textarea
+                            id="content"
+                            name="content"
+                            rows="8"
+                            required
+                        >{{ note.content }}</textarea>
+
+                        <button type="submit" class="primary-button">
+                            <i class="fa-solid fa-check"></i>
+                            Save changes
+                        </button>
+
+                    </form>
+
+                </section>
+
+            </main>
+
+    </body>
+
+</html>

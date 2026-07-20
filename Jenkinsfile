@@ -31,6 +31,18 @@ pipeline {
             }
         }
 
+        stage('Frontend Lint') {
+            steps {
+                sh '''
+                    docker run --rm \
+                    -v "$PWD:/workspace" \
+                    -w /workspace \
+                    node:22-alpine \
+                    sh -c "npm ci && npm run lint:frontend"
+                '''
+            }
+        }   
+
         stage('Unit Tests') {
             steps {
                 sh 'docker run --rm ${CI_IMAGE} python -m pytest -q'

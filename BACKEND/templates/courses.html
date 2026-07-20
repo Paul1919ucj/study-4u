@@ -1,163 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <title>Courses</title>
 
-    <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+  </head>
 
-        <title>Courses</title>
+  <body>
+    <main class="page-container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Courses</h1>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-        
+          <p class="page-subtitle">Upload and manage your course materials.</p>
+        </div>
 
-    </head>
+        <a href="{{ url_for('dashboard') }}" class="home-button">
+          <i class="fa-solid fa-house"></i>
+          Home
+        </a>
+      </div>
 
-        <body>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
 
-            <main class="page-container">
+      <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
 
-                <div class="page-header">
+      {% endif %} {% endwith %}
 
-                    <div>
-                        <h1 class="page-title">Courses</h1>
+      <section class="page-card">
+        <h2 class="section-title">Upload course file</h2>
 
-                        <p class="page-subtitle">
-                            Upload and manage your course materials.
-                        </p>
-                    </div>
+        <form
+          method="POST"
+          enctype="multipart/form-data"
+          class="course-upload-form"
+        >
+          <label for="file">Choose a file</label>
 
-                    <a href="{{ url_for('dashboard') }}" class="home-button">
-                        <i class="fa-solid fa-house"></i>
-                        Home
-                    </a>
+          <div class="file-upload-row">
+            <input type="file" id="file" name="file" required />
 
-                </div>
+            <button type="submit" class="primary-button">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              Upload file
+            </button>
+          </div>
+        </form>
+      </section>
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
+      <section class="page-card">
+        <div class="section-header-row">
+          <h2 class="section-title">Uploaded files</h2>
 
-                        <div class="flash-messages">
+          <span class="files-count"> {{ files|length }} files </span>
+        </div>
 
-                            {% for category, message in messages %}
-                                <div class="flash-message {{ category }}">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
+        <div class="files-list">
+          {% for file in files %}
 
-                        </div>
+          <article class="file-item">
+            <div class="file-info">
+              <div class="file-icon">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
 
-                    {% endif %}
-                {% endwith %}
+              <div class="file-name">{{ file.filename }}</div>
+            </div>
 
-                <section class="page-card">
+            <div class="file-actions">
+              <a
+                href="{{ url_for('download', filename=file.filename) }}"
+                class="action-button open-button"
+              >
+                <i class="fa-solid fa-eye"></i>
+                Open
+              </a>
 
-                    <h2 class="section-title">Upload course file</h2>
+              <a
+                href="{{ url_for('download', filename=file.filename) }}"
+                class="action-button download-button"
+                download
+              >
+                <i class="fa-solid fa-download"></i>
+                Download
+              </a>
 
-                    <form
-                        method="POST"
-                        enctype="multipart/form-data"
-                        class="course-upload-form"
-                    >
+              <a
+                href="{{ url_for('delete_file', file_id=file.id) }}"
+                class="action-button delete-button"
+              >
+                <i class="fa-solid fa-trash"></i>
+                Delete
+              </a>
+            </div>
+          </article>
 
-                        <label for="file">Choose a file</label>
-
-                        <div class="file-upload-row">
-
-                            <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                required
-                            >
-
-                            <button type="submit" class="primary-button">
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                Upload file
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </section>
-
-                <section class="page-card">
-
-                    <div class="section-header-row">
-
-                        <h2 class="section-title">
-                            Uploaded files
-                        </h2>
-
-                        <span class="files-count">
-                            {{ files|length }} files
-                        </span>
-
-                    </div>
-
-                    <div class="files-list">
-
-                        {% for file in files %}
-
-                            <article class="file-item">
-
-                                <div class="file-info">
-
-                                    <div class="file-icon">
-                                        <i class="fa-solid fa-file-lines"></i>
-                                    </div>
-
-                                    <div class="file-name">
-                                        {{ file.filename }}
-                                    </div>
-
-                                </div>
-
-                                <div class="file-actions">
-
-                                    <a
-                                        href="{{ url_for('download', filename=file.filename) }}"
-                                        class="action-button open-button"
-                                    >
-                                        <i class="fa-solid fa-eye"></i>
-                                        Open
-                                    </a>
-
-                                    <a
-                                        href="{{ url_for('download', filename=file.filename) }}"
-                                        class="action-button download-button"
-                                        download
-                                    >
-                                        <i class="fa-solid fa-download"></i>
-                                        Download
-                                    </a>
-
-                                    <a
-                                        href="{{ url_for('delete_file', file_id=file.id) }}"
-                                        class="action-button delete-button"
-                                    >
-                                        <i class="fa-solid fa-trash"></i>
-                                        Delete
-                                    </a>
-
-                                </div>
-
-                            </article>
-
-                        {% endfor %}
-
-                        {% if not files %}
-                            <p class="empty-message">
-                                No course files uploaded yet.
-                            </p>
-                        {% endif %}
-
-                    </div>
-
-                </section>
-
-            </main>
-
-        </body>    
-
+          {% endfor %} {% if not files %}
+          <p class="empty-message">No course files uploaded yet.</p>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

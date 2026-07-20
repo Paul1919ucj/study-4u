@@ -1,109 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <title>To-Do List</title>
 
-    <head>
-        
-        <title>To-Do List</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+  </head>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-        
+  <body>
+    <main class="page-container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">To-Do List</h1>
+        </div>
 
-    </head>
+        <a href="{{ url_for('dashboard') }}" class="home-button">
+          <i class="fa-solid fa-house"></i>
+          Home
+        </a>
+      </div>
 
-        <body>  
+      <section class="page-card">
+        <h2 class="section-title">Add a task</h2>
 
-            <main class="page-container">
+        <form method="POST" class="todo-form">
+          <label for="task">Task</label>
 
-                <div class="page-header">
+          <input
+            type="text"
+            id="task"
+            name="task"
+            placeholder="Write a new task..."
+            required
+          />
 
-                    <div>
-                        
-                        <h1 class="page-title">To-Do List</h1>
-                        
-                    </div>
+          <button type="submit" class="primary-button">
+            <i class="fa-solid fa-plus"></i>
+            Add task
+          </button>
+        </form>
+      </section>
 
-                    <a href="{{ url_for('dashboard') }}" class="home-button">
-                        <i class="fa-solid fa-house"></i>
-                        Home
-                    </a>
+      <section class="page-card tasks-card">
+        <h2 class="section-title">My Tasks</h2>
 
-                </div>
+        <div class="tasks-list">
+          {% for task in tasks %}
 
-                <section class="page-card">
+          <div class="task-item">
+            <div class="task-content">
+              <span class="task-dot"></span>
+              <span>{{ task.task }}</span>
+            </div>
 
-                    <h2 class="section-title">Add a task</h2>
+            <div class="task-actions">
+              <a
+                href="{{ url_for('edit_task', task_id=task.id) }}"
+                class="action-button edit-button"
+              >
+                <i class="fa-solid fa-pen"></i>
+                Edit
+              </a>
 
-                    <form method="POST" class="todo-form">
+              <a
+                href="{{ url_for('delete_task', task_id=task.id) }}"
+                class="action-button delete-button"
+              >
+                <i class="fa-solid fa-trash"></i>
+                Delete
+              </a>
+            </div>
+          </div>
 
-                        <label for="task">Task</label>
-
-                        <input
-                            type="text"
-                            id="task"
-                            name="task"
-                            placeholder="Write a new task..."
-                            required
-                        >
-
-                        <button type="submit" class="primary-button">
-                            <i class="fa-solid fa-plus"></i>
-                            Add task
-                        </button>
-
-                    </form>
-
-                </section>
-
-                <section class="page-card tasks-card">
-
-                    <h2 class="section-title">My Tasks</h2>
-
-                    <div class="tasks-list">
-
-                        {% for task in tasks %}
-
-                            <div class="task-item">
-
-                                <div class="task-content">
-                                    <span class="task-dot"></span>
-                                    <span>{{ task.task }}</span>
-                                </div>
-
-                                <div class="task-actions">
-
-                                    <a
-                                        href="{{ url_for('edit_task', task_id=task.id) }}"
-                                        class="action-button edit-button"
-                                    >
-                                        <i class="fa-solid fa-pen"></i>
-                                        Edit
-                                    </a>
-
-                                    <a
-                                        href="{{ url_for('delete_task', task_id=task.id) }}"
-                                        class="action-button delete-button"
-                                    >
-                                        <i class="fa-solid fa-trash"></i>
-                                        Delete
-                                    </a>
-
-                                </div>
-
-                            </div>
-
-                        {% endfor %}
-
-                        {% if not tasks %}
-                            <p class="empty-message">No tasks yet.</p>
-                        {% endif %}
-
-                    </div>
-
-                </section>
-
-            </main>
-
-        </body>
+          {% endfor %} {% if not tasks %}
+          <p class="empty-message">No tasks yet.</p>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

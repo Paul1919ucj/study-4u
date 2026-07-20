@@ -61,6 +61,22 @@ pipeline {
 
         failure {
             echo 'Pipeline 1 CI a esuat. Verifica etapa marcata cu rosu.'
+
+            script {
+                if (env.CHANGE_ID) {
+                    pullRequest.comment(
+                        """❌ **Pipeline 1 CI a eșuat**
+
+    Verifică build-ul Jenkins pentru etapa care a eșuat:
+
+    ${env.BUILD_URL}
+
+    Commit verificat: `${env.GIT_COMMIT}`
+    """
+                    )
+                } else {
+                    echo 'Build-ul nu apartine unui Pull Request; comentariul nu este trimis.'
+                }
+            }
         }
     }
-}

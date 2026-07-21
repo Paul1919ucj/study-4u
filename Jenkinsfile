@@ -256,7 +256,7 @@ pipeline {
 
         stage('Staging - API Test') {
             when {
-                branch 'main'
+                branch 'production'
             }
 
             steps {
@@ -265,19 +265,20 @@ pipeline {
                  * La fiecare încercare verifică endpointul /health.
                  */
                 sh '''
-                    for i in $(seq 1 30); do
-                        if curl -fsS http://localhost:8081/health; then
-                            echo "API-ul Staging functioneaza."
-                            exit 0
-                        fi
+                    sleep 20
+                        for i in $(seq 1 30); do
+                            if curl -fsS http://localhost:8081/health; then
+                                echo "API-ul Production functioneaza."
+                                exit 0
+                            fi
 
-                        echo "Astept pornirea API-ului Staging: $i/30"
-                        sleep 5
-                    done
+                            echo "Astept pornirea API-ului Production: $i/30"
+                            sleep 5
+                        done
 
-                    echo "API-ul Staging nu a pornit."
-                    exit 1
-                '''
+                        echo "API-ul Production nu a pornit."
+                        exit 1
+                    '''
             }
         }
 

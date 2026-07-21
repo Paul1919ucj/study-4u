@@ -4,3 +4,7 @@ _pycache_/
 BACKEND/instance/
 BACKEND/uploads/
 .env
+# Node Json
+node_modules/
+.ruff_cache
+.pytest_cache/

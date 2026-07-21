@@ -1,129 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <title>Study4U-Notes</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+  </head>
 
-    <head>
+  <body>
+    <main class="page-container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">My Notes</h1>
+          <p class="page-subtitle">Save and organize your study notes.</p>
+        </div>
 
-        <title>Study4U-Notes</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-        
+        <a href="{{ url_for('dashboard') }}" class="home-button">
+          <i class="fa-solid fa-house"></i>
+          Home
+        </a>
+      </div>
 
-    </head>
+      <section class="page-card">
+        <h2 class="section-title">Add a note</h2>
 
-        <body>
+        <form method="POST" class="note-form">
+          <label for="title">Title</label>
 
-            <main class="page-container">
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter the note title..."
+            required
+          />
 
-                <div class="page-header">
+          <label for="content">Note</label>
 
-                    <div>
-                        <h1 class="page-title">My Notes</h1>
-                        <p class="page-subtitle">
-                            Save and organize your study notes.
-                        </p>
-                    </div>
+          <textarea
+            id="content"
+            name="content"
+            rows="7"
+            placeholder="Write your note..."
+            required
+          ></textarea>
 
-                    <a href="{{ url_for('dashboard') }}" class="home-button">
-                        <i class="fa-solid fa-house"></i>
-                        Home
-                    </a>
+          <button type="submit" class="primary-button">
+            <i class="fa-solid fa-plus"></i>
+            Save note
+          </button>
+        </form>
+      </section>
 
-                </div>
+      <section class="page-card">
+        <h2 class="section-title">Saved Notes</h2>
 
-                <section class="page-card">
+        <div class="notes-list">
+          {% for note in notes %}
 
-                    <h2 class="section-title">Add a note</h2>
+          <article class="note-item">
+            <div class="note-header">
+              <div class="note-title-container">
+                <span class="glowing-dot"></span>
+                <h3>{{ note.title }}</h3>
+              </div>
 
-                    <form method="POST" class="note-form">
+              <div class="note-actions">
+                <a
+                  href="{{ url_for('edit_note', note_id=note.id) }}"
+                  class="action-button edit-button"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                  Edit
+                </a>
 
-                        <label for="title">Title</label>
+                <a
+                  href="{{ url_for('delete_note', note_id=note.id) }}"
+                  class="action-button delete-button"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                  Delete
+                </a>
+              </div>
+            </div>
 
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            placeholder="Enter the note title..."
-                            required
-                        >
+            <p class="note-content">{{ note.content }}</p>
+          </article>
 
-                        <label for="content">Note</label>
-
-                        <textarea
-                            id="content"
-                            name="content"
-                            rows="7"
-                            placeholder="Write your note..."
-                            required
-                        ></textarea>
-
-                        <button type="submit" class="primary-button">
-                            <i class="fa-solid fa-plus"></i>
-                            Save note
-                        </button>
-
-                    </form>
-
-                </section>
-
-                <section class="page-card">
-
-                    <h2 class="section-title">Saved Notes</h2>
-
-                    <div class="notes-list">
-
-                        {% for note in notes %}
-
-                            <article class="note-item">
-
-                                <div class="note-header">
-
-                                    <div class="note-title-container">
-                                        <span class="glowing-dot"></span>
-                                        <h3>{{ note.title }}</h3>
-                                    </div>
-
-                                    <div class="note-actions">
-
-                                        <a
-                                            href="{{ url_for('edit_note', note_id=note.id) }}"
-                                            class="action-button edit-button"
-                                        >
-                                            <i class="fa-solid fa-pen"></i>
-                                            Edit
-                                        </a>
-
-                                        <a
-                                            href="{{ url_for('delete_note', note_id=note.id) }}"
-                                            class="action-button delete-button"
-                                        >
-                                            <i class="fa-solid fa-trash"></i>
-                                            Delete
-                                        </a>
-
-                                    </div>
-
-                                </div>
-
-                                <p class="note-content">
-                                    {{ note.content }}
-                                </p>
-
-                            </article>
-
-                        {% endfor %}
-
-                        {% if not notes %}
-                            <p class="empty-message">
-                                No notes saved yet.
-                            </p>
-                        {% endif %}
-
-                    </div>
-
-                </section>
-
-            </main>
-
-    </body>
+          {% endfor %} {% if not notes %}
+          <p class="empty-message">No notes saved yet.</p>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

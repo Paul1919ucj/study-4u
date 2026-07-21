@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-study4u}
+      POSTGRES_USER: ${POSTGRES_USER:-study4u}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-staging_password}
+    volumes:
+      - staging_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-study4u} -d ${POSTGRES_DB:-study4u}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  study4u:
+    image: ${BACKEND_IMAGE}
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-study4u}:${POSTGRES_PASSWORD:-staging_password}@db:5432/${POSTGRES_DB:-study4u}
+      SECRET_KEY: ${SECRET_KEY:-study4u-staging-secret}
+      FLASK_DEBUG: "false"
+    expose:
+      - "5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  nginx:
+    image: ${FRONTEND_IMAGE}
+    ports:
+      - "8081:80"
+    depends_on:
+      study4u:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  staging_postgres_data:

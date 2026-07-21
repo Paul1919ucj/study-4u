@@ -1,79 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html>
-    
-    <head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study4U - Login</title>
 
-        <title>Study4U - Login </title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+  </head>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-        
+  <body>
+    <div class="login-page">
+      <div class="login-card">
+        <div class="login-logo">
+          <i class="fa-solid fa-graduation-cap"></i>
 
-    
-    </head>
+          <h1>
+            Study4
+            <span class="login-logo-u">U</span>
+          </h1>
+        </div>
 
-        <body>
+        <p class="login-subtitle">Your personal study workspace.</p>
 
-            <div class="login-page">
+        <form method="POST">
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            required
+          />
 
-                <div class="login-card">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your username"
+            required
+          />
 
-                    <div class="login-logo">
+          <button type="submit">Login</button>
+        </form>
 
-                        <i class="fa-solid fa-graduation-cap"></i>
-
-                        <h1>
-                            Study4
-                            <span class="login-logo-u">U</span>
-                        </h1>
-
-                    </div>
-
-                    <p class="login-subtitle">
-                        Your personal study workspace.
-                    </p>
-
-                    <form method="POST">
-
-                        <label>Username</label>
-                        <input  
-                            type="text"
-                            name="username"
-                            placeholder="Enter your username"
-                            required >
-                        
-                        <label>Password</label>
-                        <input 
-                            type="password"
-                            name="password"
-                            placeholder="Enter your username"
-                            required >
-                        
-                        <button type="submit">
-                            Login
-                        </button>
-
-                    </form>
-
-                    <p class="login-link">
-                        Don't have an account yet?
-                        <a href="{{ url_for('register') }}">Register now!</a>
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-
-
-        </body>
-
+        <p class="login-link">
+          Don't have an account yet?
+          <a href="{{ url_for('register') }}">Register now!</a>
+        </p>
+      </div>
+    </div>
+  </body>
 </html>

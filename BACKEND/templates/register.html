@@ -1,39 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 
-    <head>
-        <meta charset="UTF-8">
+<html>
+  <head>
+    <meta charset="UTF-8" />
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Study4U - Register</title>
+    <title>Study4U - Register</title>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css')}}"
+    />
+  </head>
 
-    </head>
+  <body>
+    <div class="login-container">
+      <p>Join our community</p>
 
-        <body>
-            <div class="login-container">
+      <form method="POST">
+        <label>Username</label>
+        <input type="text" name="username" />
 
-                <p>Join our community</p>
+        <label>Email</label>
+        <input type="text" name="email" />
 
-                <form method="POST">
-                    <label>Username</label>
-                        <input type="text" name="username">
+        <label>Password</label>
+        <input type="password" name="password" />
 
-                    <label>Email</label>
-                        <input type="text" name="email">
-
-                    <label>Password</label>
-                        <input type="password" name="password">
-
-                <button type ="submit">Register </button>
-                </form>
-            <p class="login-link">
-                Already have an account?
-                <a href="/">Login here</a>
-            </p>
-
-            </div>
-        </body>
-
+        <button type="submit">Register</button>
+      </form>
+      <p class="login-link">
+        Already have an account?
+        <a href="/">Login here</a>
+      </p>
+    </div>
+  </body>
 </html>

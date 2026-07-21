@@ -1,65 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <title>Edit Task</title>
 
-    <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+  </head>
 
-        <title> Edit Task</title>
+  <body>
+    <main class="page-container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Edit Task</h1>
+          <p class="page-subtitle">Update your task details.</p>
+        </div>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-        
+        <a href="{{ url_for('todo') }}" class="home-button">
+          <i class="fa-solid fa-arrow-left"></i>
+          Back
+        </a>
+      </div>
 
-    </head>
+      <section class="page-card edit-task-card">
+        <form method="POST" class="edit-task-form">
+          <label for="task">Task</label>
 
-      <body>
+          <input
+            type="text"
+            id="task"
+            name="task"
+            value="{{ task.task }}"
+            required
+          />
 
-        <main class="page-container">
-
-            <div class="page-header">
-
-                <div>
-
-                    <h1 class="page-title">Edit Task</h1>
-                    <p class="page-subtitle">Update your task details.</p>
-
-                </div>
-
-                <a href="{{ url_for('todo') }}" class="home-button">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Back
-                </a>
-
-            </div>
-
-            <section class="page-card edit-task-card">
-
-                <form method="POST" class="edit-task-form">
-
-                    <label for="task">Task</label>
-
-                    <input
-
-                        type="text"
-                        id="task"
-                        name="task"
-                        value="{{ task.task }}"
-                        required
-                    >
-
-                    <button type="submit" class="primary-button">
-
-                        <i class="fa-solid fa-check"></i>
-                        Save changes
-                        
-                    </button>
-
-                </form>
-
-            </section>
-
-        </main>
-
-    </body>
-
+          <button type="submit" class="primary-button">
+            <i class="fa-solid fa-check"></i>
+            Save changes
+          </button>
+        </form>
+      </section>
+    </main>
+  </body>
 </html>

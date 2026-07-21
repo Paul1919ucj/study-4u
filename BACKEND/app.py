@@ -1,14 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory, flash
+from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "study4u_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///study4u.db"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "study4u-local-development-key",)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///study4u.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["UPLOAD_FOLDER"]="uploads"
+app.config["UPLOAD_FOLDER"]= os.path.join(app.root_path, "uploads")
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 db = SQLAlchemy(app)
 class User(db.Model):
@@ -46,6 +48,15 @@ class Review(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+@app.route("/health", methods=["GET"])
+def health():
+    try:
+        db.session.execute(text("SELECT 1"))
+        return jsonify({"status": "healthy", "application": "study4U", "database": "connected"}), 200
+    except Exception as error:
+        app.logger.error("Health check failed: %s", error)
+        return jsonify({"status": "unhealthy", "application": "study4U", "database": "disconnected"}), 503
 
 @app.route("/", methods=["POST", "GET"])
 def home():
@@ -465,4 +476,5 @@ with app.app_context():
     db.create_all()
     
 if __name__=="__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    debug_mode = os.getenv("FLASK_DEBUG", "false").lower() == "true"
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode)

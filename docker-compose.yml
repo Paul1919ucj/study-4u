@@ -1,34 +1,59 @@
-version: "3.9"
-
 services:
-  study4u:
+  db:
+    image: postgres:16
 
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+    restart: unless-stopped
+
+  study4u:
     build:
       context: .
       dockerfile: docker/Dockerfile
 
-    container_name: study4u-container
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SECRET_KEY: ${SECRET_KEY}
+      FLASK_DEBUG: "false"
 
     expose:
       - "5000"
 
+    depends_on:
+      db:
+        condition: service_healthy
+
     restart: unless-stopped
 
   nginx:
-    image: nginx:latest
-
-    container_name: nginx-container
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
 
     ports:
       - "80:80"
-      
+
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx//nginx.conf:ro
-      
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
     depends_on:
       - study4u
 
     restart: unless-stopped
-        
+
+volumes:
+  postgres_data:
 
 

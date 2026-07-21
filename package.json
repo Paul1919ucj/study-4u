@@ -1,0 +1,10 @@
+{
+  "name": "study4u-frontend-lint",
+  "private": true,
+  "devDependencies": {
+    "prettier": "3.6.2"
+  },
+  "scripts": {
+    "lint:frontend": "prettier --check \"BACKEND/templates/**/*.html\" \"BACKEND/static/**/*.{css,js}\""
+  }
+}

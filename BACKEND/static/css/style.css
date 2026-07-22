@@ -184,3 +184,24 @@ button:hover {
   text-decoration: none;
   font-weight: 600;
 }
+
+select,
+textarea {
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 13px 14px;
+
+  color: white;
+  background: rgba(255,255,255,.05);
+
+  border: 1px solid rgba(255,79,216,.35);
+  border-radius: 10px;
+
+  outline: none;
+}
+
+select:focus,
+textarea:focus {
+  border-color: #ff4fd8;
+  box-shadow: 0 0 15px rgba(255,79,216,.2);
+}

@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html>
   <head>
     <title>Rate Study4U</title>
@@ -25,19 +24,17 @@
   <body>
     <div class="login-page">
       <div class="login-card">
-
         <h1>⭐ Rate Study4U</h1>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="flash {{ category }}">{{ message }}</div>
-        {% endfor %}
-        {% endif %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
         {% endwith %}
 
         <form method="POST">
-
           <label>Rating</label>
 
           <select name="rating">
@@ -57,42 +54,34 @@
             placeholder="Write your review..."
           ></textarea>
 
-          <button type="submit">
-            Submit Review
-          </button>
-
+          <button type="submit">Submit Review</button>
         </form>
 
-        <hr>
+        <hr />
 
         {% for review in reviews %}
-        <div class="review">
+          <div class="review">
+            {% for user in users %}
+              {% if user.id == review.user_id %}
+                <strong>{{ user.username }}</strong>
+              {% endif %}
+            {% endfor %}
 
-          {% for user in users %}
-          {% if user.id == review.user_id %}
-          <strong>{{ user.username }}</strong>
-          {% endif %}
-          {% endfor %}
+            <p>
+              {% for i in range(review.rating) %}★{% endfor %}
+              {% for i in range(5 - review.rating) %}☆{% endfor %}
+            </p>
 
-          <p>
-            {% for i in range(review.rating) %}★{% endfor %}
-            {% for i in range(5-review.rating) %}☆{% endfor %}
-          </p>
+            <p>{{ review.comment }}</p>
+          </div>
 
-          <p>{{ review.comment }}</p>
-
-        </div>
-
-        <hr>
+          <hr />
         {% endfor %}
 
         <a href="{{ url_for('dashboard') }}">
           ← Back to dashboard
         </a>
-
       </div>
     </div>
-    
   </body>
-
 </html>

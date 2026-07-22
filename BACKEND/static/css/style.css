@@ -185,23 +185,24 @@ button:hover {
   font-weight: 600;
 }
 
-select,
-textarea {
+select {
   width: 100%;
   margin-bottom: 18px;
   padding: 13px 14px;
 
-  color: white;
-  background: rgba(255,255,255,.05);
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
 
-  border: 1px solid rgba(255,79,216,.35);
+  background-color: #25002f;
+  border: 1px solid rgba(255, 79, 216, 0.45);
   border-radius: 10px;
 
   outline: none;
+  cursor: pointer;
+  color-scheme: dark;
 }
 
-select:focus,
-textarea:focus {
-  border-color: #ff4fd8;
-  box-shadow: 0 0 15px rgba(255,79,216,.2);
+select option {
+  color: #ffffff;
+  background: #25002f;
 }

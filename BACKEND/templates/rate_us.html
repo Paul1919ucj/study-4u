@@ -6,6 +6,10 @@
 
     <link
       rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
       href="{{ url_for('static', filename='css/pages.css') }}"
     />
     <link
@@ -19,51 +23,76 @@
   </head>
 
   <body>
-    <h1>Rate US!</h1>
+    <div class="login-page">
+      <div class="login-card">
 
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %} {% for category, message in messages %}
-    <div class="flash {{ category }}">{{ message }}</div>
-    {% endfor %} {% endif %} {% endwith %}
+        <h1>⭐ Rate Study4U</h1>
 
-    <form method="POST">
-      <label>Rating</label><br />
-      <select name="rating">
-        <option value="">Select rating</option>
-        <option value="1">1 star</option>
-        <option value="2">2 stars</option>
-        <option value="3">3 stars</option>
-        <option value="4">4 stars</option>
-        <option value="5">5 stars</option>
-      </select>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-      <br /><br />
+        <form method="POST">
 
-      <label>Comment</label><br />
-      <textarea name="comment" rows="5" cols="50"></textarea>
+          <label>Rating</label>
 
-      <button type="submit">Submit your review!</button>
-    </form>
+          <select name="rating">
+            <option value="">Select rating</option>
+            <option value="1">1 star</option>
+            <option value="2">2 stars</option>
+            <option value="3">3 stars</option>
+            <option value="4">4 stars</option>
+            <option value="5">5 stars</option>
+          </select>
 
-    {% for review in reviews %}
+          <label>Comment</label>
 
-    <div>
-      {% for user in users %} {% if user.id == review.user_id %}
-      <strong>{{ user.username }}</strong>
-      {% endif %} {% endfor %}
+          <textarea
+            name="comment"
+            rows="5"
+            placeholder="Write your review..."
+          ></textarea>
 
-      <p>
-        {% for i in range(review.rating) %} ★ {% endfor %} {% for i in range(5 -
-        review.rating) %} ☆ {% endfor %}
-      </p>
+          <button type="submit">
+            Submit Review
+          </button>
 
-      <p>{{ review.comment }}</p>
+        </form>
+
+        <hr>
+
+        {% for review in reviews %}
+        <div class="review">
+
+          {% for user in users %}
+          {% if user.id == review.user_id %}
+          <strong>{{ user.username }}</strong>
+          {% endif %}
+          {% endfor %}
+
+          <p>
+            {% for i in range(review.rating) %}★{% endfor %}
+            {% for i in range(5-review.rating) %}☆{% endfor %}
+          </p>
+
+          <p>{{ review.comment }}</p>
+
+        </div>
+
+        <hr>
+        {% endfor %}
+
+        <a href="{{ url_for('dashboard') }}">
+          ← Back to dashboard
+        </a>
+
+      </div>
     </div>
-
-    <hr />
-
-    {% endfor %}
-
-    <a href="{{ url_for('dashboard') }}">Back to dashboard</a>
+    
   </body>
+
 </html>
